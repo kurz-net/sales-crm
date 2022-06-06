@@ -1,0 +1,42 @@
+
+<%= f = form_for @changeset, "#",
+  id: @id,
+  class: "py-0",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <div class="mb-4">
+    <%= label f, :company_name, "Unternehmen" %>
+    <%= error_tag f, :company_name %>
+    <%= text_input f, :company_name, placeholder: "Unternehmen" %>
+  </div>
+
+  <div class="mb-4">
+    <%= label f, :contact_name, "Kontakt" %>
+    <%= error_tag f, :contact_name %>
+    <%= text_input f, :contact_name, placeholder: "Kontakt" %>
+  </div>
+
+  <div class="mb-4">
+    <%= label f, :notes, "Notizen" %>
+    <%= error_tag f, :notes %>
+    <%= textarea f, :notes, placeholder: "Notizen", rows: 5, class: "w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= label f, :project_id, "Projekt" %>
+    <%= error_tag f, :project_id %>
+    <%= live_select f, :project_id, Enum.map(@projects, &({"#{&1.partner.name} - #{&1.name}", &1.id})), prompt: "Projekt wählen", class: "w-full" %>
+  </div>
+
+  <div class="mb-4">
+    <%= label f, :rebel_id, "Rebel" %>
+    <%= error_tag f, :rebel_id %>
+    <%= live_select f, :rebel_id, Enum.map(@rebels, &({"#{&1.first_name} #{&1.last_name}", &1.id})), prompt: "Rebel wählen", class: "w-full" %>
+  </div>
+
+  <div class="my-8">
+    <%= submit "BESTÄTIGEN", class: "w-full", phx_disable_with: "SPEICHERN..." %>
+  </div>
+</form>

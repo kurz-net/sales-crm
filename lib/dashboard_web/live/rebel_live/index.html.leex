@@ -1,0 +1,91 @@
+<%= if @live_action == :export do %>
+  <%= live_modal @socket, DashboardWeb.RebelLive.CallLive.ExportComponent,
+    id: @export,
+    title: "Export Call",
+    call_id: @export,
+    return_to: Routes.rebel_index_path(@socket, :index) %>
+<% end %>
+
+<div class="flex flex-wrap">
+  <div class="w-full lg:w-3/4 order-2 lg:order-1 lg:pr-20 mb-20 lg:mb-0">
+    <div class="flex justify-between mb-4">
+      <h2 class="text-2xl text-gray-800 font-medium">Anrufe</h2>
+      <div>
+        <%= live_redirect to: Routes.rebel_leads_index_path(@socket, :index) do %>
+          <button class="btn-flat">LEADS</button>
+        <% end %>
+        <%= if false do %>
+          <%= live_redirect to: Routes.live_path(@socket, DashboardWeb.RebelLive.InformationLive.Index) do %>
+            <button class="btn-flat">KONTAKT INFORMATIONEN</button>
+          <% end %>
+        <% end %>
+        <%= live_redirect to: Routes.live_path(@socket, DashboardWeb.RebelLive.CallLive.New) do %>
+          <button class="btn-flat text-xl">
+            <i class="fa fa-plus"></i>
+          </button>
+        <% end %>
+      </div>
+    </div>
+    <%= for call <- @calls do %>
+      <%= live_component @socket, DashboardWeb.CallItemComponent, call_id: call.id %>
+    <% end %>
+    <hr>
+    <div class="flex justify-between mt-4">
+      <div class="flex">
+        <%= live_patch to: Routes.rebel_index_path(@socket, :index, page: @paginate.page-1, per_page: @paginate.per_page) do %>
+          <button <%= if @paginate.page <= 1, do: 'disabled' %>>VORHERIGE</button>
+        <% end %>
+      </div>
+
+      <div class="flex justify-center">
+        <%= for n <- 1..@max_pages do %>
+          <span class="flex items-center rounded px-3 mx-1 bg-gray-200 <%= if @paginate.page == n, do: 'bg-gray-300' %> <%= if @max_pages == 1.0, do: 'py-2' %>">
+            <%= n %>
+          </span>
+        <% end %>
+      </div>
+
+      <div class="flex justify-end">
+        <%= live_patch to: Routes.rebel_index_path(@socket, :index, page: @paginate.page+1, per_page: @paginate.per_page) do %>
+          <button <%= if @paginate.page >= @max_pages, do: 'disabled' %>>NÄCHSTE</button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="w-full lg:w-1/4 flex flex-col order-1 lg:order-2">
+    <div class="w-full">
+      <%= live_component @socket, DashboardWeb.SessionComponent,
+            id: :session,
+            rebel: @current_user.rebel %>
+    </div>
+
+    <hr class="my-6">
+
+    <div class="w-full">
+      <%= live_component @socket, DashboardWeb.InformationComponent,
+            rebel: @current_user.rebel %>
+    </div>
+
+    <hr class="my-6">
+
+    <div class="w-full">
+      <%= live_component @socket, DashboardWeb.RebelWorkQuotaComponent,
+            rebel: @current_user.rebel %>
+    </div>
+
+    <hr class="my-6">
+
+    <div class="w-full lg:mb-20 -mt-4">
+      <%= if length(@requirements) == 0 do %>
+        <h3 class="font-semibold text-lg text-gray-600 mt-4">Keine Anforderungen vorhanden</h3>
+      <% end %>
+      <%= for requirement <- @requirements do %>
+        <div class="w-full py-4">
+          <%= live_component @socket, DashboardWeb.RequirementComponent, requirement: requirement, rebel: @current_user.rebel %>
+        </div>
+      <% end %>
+    </div>
+
+    <hr class="my-6 block lg:hidden">
+  </div>
+</div>

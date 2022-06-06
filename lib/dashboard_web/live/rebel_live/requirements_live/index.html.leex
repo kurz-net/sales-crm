@@ -1,0 +1,7 @@
+<div class="flex flex-wrap">
+  <%= for requirement <- @requirements do %>
+    <div class="w-1/2 px-10 mb-8">
+      <%= live_component @socket, DashboardWeb.RequirementComponent, requirement: requirement, rebel: @current_user.rebel  %>
+    </div>
+  <% end %>
+</div>

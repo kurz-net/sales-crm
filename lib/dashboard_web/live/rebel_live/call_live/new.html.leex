@@ -1,0 +1,68 @@
+<div class="flex justify-between mb-4">
+  <h1 class="text-2xl font-medium text-gray-800">New Call</h1>
+  <div>
+    <button class="btn-flat" phx-click="navigate_back">ZURÜCK</button>
+    <%= if not @running_call do %>
+      <button phx-click="start_call" class="bg-green-500">START</button>
+    <% else %>
+      <button phx-click="end_call" class="bg-red-500 ml-4">ENDE</button>
+    <% end %>
+  </div>
+</div>
+
+<hr class="mb-2">
+
+<%= f = form_for @changeset, "#", [phx_change: "validate_call", phx_submit: "submit_call"] %>
+  <div class="mb-4">
+    <%= label f, :lead_id, "Lead*" %>
+    <%= error_tag f, :lead_id %>
+    <%= live_select f, :lead_id, Enum.map(@current_user.rebel.leads, &{&1.company_name, &1.id}), prompt: "Wähle einen Lead", class: "w-full" %>
+  </div>
+
+  <%= inputs_for f, :documentation, fn doc -> %>
+    <div class="mb-4">
+      <%= label doc, :disc, "DISC" %>
+      <%= error_tag doc, :disc %>
+      <%= text_input doc, :disc, placeholder: "DISC" %>
+    </div>
+    <div class="mb-4">
+      <%= label doc, :branche, "Branche" %>
+      <%= error_tag doc, :branche %>
+      <%= text_input doc, :branche, placeholder: "Branche" %>
+    </div>
+    <div class="mb-4">
+      <%= label doc, :data, "Daten" %>
+      <%= error_tag doc, :data %>
+      <%= textarea doc, :data, placeholder: "Data", rows: 5, class: "w-full" %>
+    </div>
+    <div class="mb-4">
+      <%= label doc, :pains, "Probleme" %>
+      <%= error_tag doc, :pains %>
+      <%= textarea doc, :pains, placeholder: "Pains", rows: 5, class: "w-full" %>
+    </div>
+    <div class="mb-4">
+      <%= label doc, :other, "Sonstige" %>
+      <%= error_tag doc, :other %>
+      <%= textarea doc, :other, placeholder: "Sonstige", rows: 5, class: "w-full" %>
+    </div>
+  <% end %>
+  <div class="mb-4">
+    <%= label f, :outcome, "Ergebnis*" %>
+    <%= error_tag f, :outcome %>
+    <%= live_select f, :outcome, Call.outcomes, class: "w-full" %>
+  </div>
+  <div class="mb-4">
+    <%= label f, :follow_up, "Wiedervorlage" %>
+    <%= datetime_select f, :follow_up, builder: fn b -> %>
+      Datum: &nbsp;<%= b.(:day, [class: "py-2"]) %> / <%= b.(:month, [class: "py-2"]) %> / <%= b.(:year, [class: "py-2"]) %><br>
+      <br>
+      Uhrzeit: <%= b.(:hour, [class: "py-2"]) %> : <%= b.(:minute, [class: "py-2"]) %>
+    <% end %>
+    <div class="text-gray-700 mt-2 italic">
+      ("Time" bei 00:00 lassen, falls kein Termin ausgemacht wurde)
+    </div>
+  </div>
+  <div class="my-10">
+    <%= submit "BESTÄTIGEN", class: "w-full text-lg" %>
+  </div>
+</form>

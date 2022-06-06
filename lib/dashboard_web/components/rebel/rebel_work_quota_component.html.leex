@@ -1,0 +1,28 @@
+<div class="mb-2">
+  <h2 class="text-2xl text-gray-800 font-medium">Pensum</h2>
+</div>
+
+<div>
+  <%= if @work_quota do %>
+    <div class="flex justify-between">
+      <span class="text-lg font-medium text-gray-800">
+        <%= @work_quota.hours %> Stunden
+      </span>
+
+      <span class="font-semibold text-gray-600">
+        <%= days_left Date.utc_today, @work_quota.to_date %>
+      </span>
+    </div>
+    <%= live_redirect to: Routes.live_path(@socket, DashboardWeb.RebelLive.WorkQuotaLive.Edit, @work_quota.id) do %>
+      <button class="btn-flat w-full mt-3">
+        BEARBEITEN
+      </button>
+    <% end %>
+  <% else %>
+    <%= live_redirect to: Routes.live_path(@socket, DashboardWeb.RebelLive.WorkQuotaLive.New) do %>
+      <button class="btn-flat w-full">
+        EINTRAGEN
+      </button>
+    <% end %>
+  <% end %>
+</div>

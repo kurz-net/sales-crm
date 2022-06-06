@@ -1,0 +1,19 @@
+
+<%= f = form_for @changeset, "#",
+  id: "partner-form",
+  class: "py-0",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <%= label f, :name %>
+  <div class="flex">
+    <div class="flex flex-1">
+      <%= text_input f, :name, placeholder: "Name" %>
+    </div>
+    <div class="ml-4">
+      <%= submit "BESTÄTIGEN", phx_disable_with: "SPEICHERN..." %>
+    </div>
+  </div>
+  <%= error_tag f, :name %>
+</form>

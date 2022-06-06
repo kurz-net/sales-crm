@@ -1,0 +1,58 @@
+<div class="flex justify-between mb-2">
+  <h2 class="text-2xl font-medium text-gray-800">Kontakt Informationen</h2>
+  <div>
+    <%= live_redirect to: Routes.rebel_index_path(@socket, :index) do %>
+      <button class="btn-flat">ZURÜCK</button>
+    <% end %>
+  </div>
+</div>
+
+<form phx-change="form-change">
+  <div class="mb-4 flex">
+    <div class="w-full mr-4">
+      <%= live_select :params, :project, Enum.map(@current_user.rebel.projects, &{&1.name, &1.id}), prompt: "Projekt wählen", class: "w-full", value: @project && @project.id %>
+    </div>
+    <div class="w-full">
+      <%= live_select :params, :contact, @contacts, prompt: "Kontakt wählen", class: "w-full", value: @contact  %>
+    </div>
+  </div>
+</form>
+
+<%= if @summary == nil do %>
+  <div class="h-40 flex justify-center items-center">
+    <span class="text-xl font-semibold text-gray-600">Nichts ausgewählt</span>
+  </div>
+<% else %>
+  <div class="mb-20">
+    <table class="table-fixed w-full mb-8">
+      <thead>
+        <tr class="text-left text-gray-800">
+          <th class="px-4 py-2">DISC</th>
+          <th class="px-4 py-2">Branche</th>
+          <th class="px-4 py-2">Anzahl Anrufe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-gray-100">
+          <td class="px-4 py-2">
+            <%= @summary.disc %>
+          </td>
+          <td class="px-4 py-2">
+            <%= @summary.branche %>
+          </td>
+          <td class="px-4 py-2">
+            <%= @summary.amount_calls %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pl-4 flex flex-wrap">
+      <%= display_section "Daten", @summary.data %>
+      <%= display_section "Probleme", @summary.pains %>
+      <%= display_section "Sonstiges", @summary.other %>
+      <%= display_section "Ergebnisse", @summary.outcomes %>
+      <%= display_section "Wiedervorlagen", @summary.follow_ups %>
+    </div>
+  </div>
+<% end %>

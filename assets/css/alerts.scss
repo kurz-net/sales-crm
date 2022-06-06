@@ -1,0 +1,33 @@
+.alert {
+	@apply px-6 py-4 border-solid border-2 rounded-lg border-opacity-25 leading-none items-center flex mb-4;
+}
+.alert-info {
+	@apply text-primary-800 bg-primary-200 border-primary-400;
+}
+.alert-error {
+	@apply text-red-800 bg-red-200 border-red-400;
+}
+.alert-success {
+	@apply text-green-800 bg-green-200 border-green-400;
+}
+.alert:empty {
+	display: none;
+}
+
+.alert > svg path {
+	fill: none;
+	stroke-width: 3;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	//transition: 0.2s;
+}
+
+.alert-info > svg path {
+	@apply text-primary-800;
+}
+.alert-error > svg path {
+	@apply text-red-800;
+}
+.alert-success > svg path {
+	@apply text-green-800;
+}

@@ -1,0 +1,18 @@
+<div class="flex justify-between mb-4">
+  <h1 class="text-2xl text-gray-800 font-medium">Partner erstellen</h1>
+  <div>
+    <%= live_redirect to: Routes.saleup_partners_index_path(@socket, :index) do %>
+      <button class="btn-flat">ZURÜCK</button>
+    <% end %>
+  </div>
+</div>
+
+<hr class="mb-8">
+
+<div class="mb-8">
+  <%= live_component @socket,
+    DashboardWeb.PartnerFormComponent,
+    id: :partner_form,
+    partner: %Partner{},
+    action: :new %>
+</div>

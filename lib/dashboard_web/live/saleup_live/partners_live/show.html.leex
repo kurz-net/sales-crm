@@ -1,0 +1,71 @@
+<div class="flex justify-between mb-4">
+  <h1 class="text-2xl text-gray-800 font-medium">Partner bearbeiten</h1>
+  <div>
+    <%= live_redirect to: Routes.saleup_projects_new_path(@socket, :new, @partner.id) do %>
+      <button class="btn-flat">
+        <i class="fa fa-plus"></i>
+        PROJEKT
+      </button>
+    <% end %>
+    <%= live_redirect to: Routes.saleup_partners_index_path(@socket, :index) do %>
+      <button class="btn-flat">ZURÜCK</button>
+    <% end %>
+  </div>
+</div>
+
+<hr class="mb-8">
+
+<div class="mb-8">
+  <%= live_component @socket,
+    DashboardWeb.PartnerFormComponent,
+    id: :partner_form,
+    partner: @partner,
+    action: :edit %>
+</div>
+
+<div>
+  <div class="mb-4">
+    <h2 class="text-lg font-medium text-gray-800">Projekte</h2>
+  </div>
+
+  <table class="table-fixed w-full">
+    <thead>
+      <tr class="text-left text-gray-800">
+        <th class="px-4 py-2">Name</th>
+        <th class="px-4 py-2">Von</th>
+        <th class="px-4 py-2">Bis</th>
+        <th class="px-4 py-2 text-right">Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for {project, index} <- Enum.with_index @partner.projects do %>
+        <tr class="<%= if rem(index, 2) != 0, do: 'bg-gray-100' %>">
+          <td class="px-4 py-2">
+            <%= project.name %>
+          </td>
+          <td class="px-4 py-2">
+            <%= if is_nil(project.start_date) do %>
+              <span class="font-semibold text-gray-800">-</span>
+            <% else %>
+              <%= project.start_date %>
+            <% end %>
+          </td>
+          <td class="px-4 py-2">
+            <%= if is_nil(project.end_date) do %>
+              <span class="font-semibold text-gray-800">-</span>
+            <% else %>
+              <%= project.end_date %>
+            <% end %>
+          </td>
+          <td class="px-4 py-2 text-right">
+            <%= live_redirect to: Routes.saleup_projects_show_path(@socket, :edit, project.id) do %>
+              <button class="btn-flat">
+                <i class="fa fa-pencil"></i>
+              </button>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

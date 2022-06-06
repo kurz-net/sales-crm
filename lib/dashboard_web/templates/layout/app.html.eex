@@ -1,0 +1,8 @@
+<main role="main" class="flex justify-center">
+  <div class="container mt-10 mx-auto px-8">
+    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+    <p class="alert alert-success" role="alert"><%= get_flash(@conn, :success) %></p>
+    <%= @inner_content %>
+  </div>
+</main>

@@ -1,0 +1,55 @@
+<div class="flex justify-between mb-4">
+  <h1 class="text-2xl text-gray-800 font-medium">Leads</h1>
+  <div>
+    <%= live_redirect to: Routes.rebel_leads_new_path(@socket, :new) do %>
+      <button class="btn-flat">
+        <i class="fa fa-plus"></i>
+        ERSTELLEN
+      </button>
+    <% end %>
+    <%= live_redirect to: Routes.rebel_index_path(@socket, :index) do %>
+      <button class="btn-flat">ZURÜCK</button>
+    <% end %>
+  </div>
+</div>
+
+<hr class="mb-8">
+
+<div class="mt-8">
+  <table class="table-fixed w-full">
+    <thead>
+      <tr class="text-left text-gray-800">
+        <th class="px-4 py-2">Unternehmen</th>
+        <th class="px-4 py-2">Kontakt</th>
+        <th class="px-4 py-2">Projekt</th>
+        <th class="px-4 py-2">Letztes Ergebnis</th>
+        <th class="px-4 py-2 text-right">Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for {lead, index} <- Enum.with_index @current_user.rebel.leads do %>
+        <tr class="<%= if rem(index, 2) != 0, do: 'bg-gray-100' %>">
+          <td class="px-4 py-2">
+            <%= lead.company_name %>
+          </td>
+          <td class="px-4 py-2">
+            <%= lead.contact_name %>
+          </td>
+          <td class="px-4 py-2">
+            <%= lead.project.name %> (<%= lead.project.partner.name %>)
+          </td>
+          <td class="px-4 py-2">
+            <%= Lead.last_outcome lead %>
+          </td>
+          <td class="px-4 py-2 text-right text-lg">
+            <%= live_redirect to: Routes.rebel_leads_show_path(@socket, :show, lead.id) do %>
+              <button class="btn-flat">
+                <i class="fa fa-info"></i>
+              </button>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

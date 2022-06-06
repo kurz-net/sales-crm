@@ -1,0 +1,51 @@
+<div>
+  <div class="flex justify-between items-center">
+    <div>
+      <h2 class="text-xl">
+        <%= @requirement.partner.name %>
+      </h2>
+      <span class="font-semibold text-gray-600">
+        <%= if @requirement.rebel_id do %>
+          Individuell
+        <% else %>
+          Für alle
+        <% end %>
+      </span>
+    </div>
+    <h3 class="text-lg font-medium text-gray-800">
+      <%= days_left Date.utc_today, @requirement.to_date %>
+    </h3>
+  </div>
+
+  <%= if @requirement.calls do %>
+    <div class="mt-4">
+      <div class="flex justify-between text-lg font-medium text-gray-800">
+        <span>Anrufe</span>
+        <span>
+          <%= number_calls @rebel, @requirement %> / <%= @requirement.calls %>
+        </span>
+      </div>
+      <div class="mt-2 bg-gray-300 rounded-sm">
+        <div class="mt-2 bg-primary-400 py-2 rounded-sm max-w-full"
+          style="width: <%= percentage_calls @rebel, @requirement %>%"
+        ></div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= if @requirement.hours do %>
+    <div class="mt-4">
+      <div class="flex justify-between text-lg font-medium text-gray-800">
+        <span>Stunden</span>
+        <span>
+          <%= formatted_hours @calls, @requirement %> / <%= @requirement.hours %>
+        </span>
+      </div>
+      <div class="mt-2 bg-gray-300 rounded-sm">
+        <div class="mt-2 bg-primary-400 py-2 max-w-full"
+          style="width: <%= percentage_hours @calls, @requirement %>%"
+        ></div>
+      </div>
+    </div>
+  <% end %>
+</div>

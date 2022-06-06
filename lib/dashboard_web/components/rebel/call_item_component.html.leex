@@ -1,0 +1,25 @@
+<div class="mb-4 flex justify-between">
+  <div>
+    <h3 class="text-lg">
+      <%= @call.lead.contact_name %>
+    </h3>
+    <div class="text-gray-800 text-semibold">
+      <%= @call.lead.project.name %> (<%= @call.lead.project.partner.name %>)
+    </div>
+    <div class="text-sm text-gray-800 text-semibold">
+      <%= @call.inserted_at %>
+    </div>
+  </div>
+  <div>
+    <%= live_patch to: Routes.rebel_index_path(@socket, :export, call_id: @call.id) do %>
+      <button class="btn-flat">
+        EXPORTIEREN
+      </button>
+    <% end %>
+    <%= live_redirect to: Routes.rebel_call_show_path(@socket, :show, @call.id) do %>
+      <button class="btn-flat">
+        <i class="fa fa-arrow-right"></i>
+      </button>
+    <% end %>
+  </div>
+</div>

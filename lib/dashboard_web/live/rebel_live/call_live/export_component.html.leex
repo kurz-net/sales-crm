@@ -1,0 +1,28 @@
+<p>Project: <%= @call.lead.project.name %></p>
+<p>Kontakt: <%= @call.lead.contact_name %></p>
+<p>Länge: <%= Float.round(@call.length / 60, 2) %> min. </p>
+<p>Ergebnis: <%= @call.outcome %></p>
+<p>Wiedervorlage: <%= @call.follow_up || "nicht vorhanden" %></p>
+
+<br>
+
+<p>=== Generelles ===========================================</p>
+<p>DISC: <%= @call.documentation.disc %></p>
+<p>Branche: <%= @call.documentation.branche %></p>
+
+<br>
+
+<p>=== Daten ================================================</p>
+<p><%= @call.documentation.data %></p>
+
+<br>
+
+<p>=== Probleme =============================================</p>
+<p><%= @call.documentation.pains %></p>
+
+<br>
+
+<%= if @call.documentation.other != "" do %>
+  <p>"=== Sonstiges ============================================"</p>
+  <p><%= @call.documentation.other %></p>
+<% end %>

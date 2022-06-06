@@ -1,0 +1,48 @@
+<%= f = form_for @changeset, "#" %>
+  <div class="mb-4">
+    <%= label f, :project, "Projekt" %>
+    <%= text_input f, :project, readonly: true, value: @call.lead.project.name %>
+  </div>
+  <div class="mb-4">
+    <%= label :company_name, "Unternehmen" %>
+    <%= text_input f, :company_name, readonly: true, value: @call.lead.company_name %>
+  </div>
+  <div class="mb-4">
+    <%= label :contact_name, "Kontakt" %>
+    <%= text_input f, :contact_name, readonly: true, value: @call.lead.contact_name %>
+  </div>
+  <%= inputs_for f, :documentation, fn doc -> %>
+    <div class="mb-4">
+      <%= label doc, :disc, "DISC" %>
+      <%= text_input doc, :disc, placeholder: "DISC", readonly: true %>
+    </div>
+    <div class="mb-4">
+      <%= label doc, :branche, "Branche" %>
+      <%= text_input doc, :branche, placeholder: "Branche", readonly: true %>
+    </div>
+    <div class="mb-4">
+      <%= label doc, :data, "Daten" %>
+      <%= textarea doc, :data, placeholder: "Data", class: "w-full", rows: 5, readonly: true %>
+    </div>
+    <div class="mb-4">
+      <%= label doc, :pains, "Probleme" %>
+      <%= textarea doc, :pains, placeholder: "Pains", class: "w-full", rows: 5, readonly: true %>
+    </div>
+    <div class="mb-4">
+      <%= label doc, :other, "Sonstiges" %>
+      <%= textarea doc, :other, placeholder: "Other", class: "w-full", rows: 5, readonly: true %>
+    </div>
+  <% end %>
+  <div class="mb-4">
+    <%= label f, :outcome, "Ergebnis" %>
+    <%= text_input f, :outcome, readonly: true %>
+  </div>
+  <div class="mb-4">
+    <%= label f, :follow_up, "Wiedervorlage" %>
+    <%= if @call.follow_up do %>
+      <%= text_input f, :follow_up, value: @call.follow_up, readonly: true %>
+  <% else %>
+      <p class="text-md italic text-gray-800 font-medium">Nicht angegeben</p>
+    <% end %>
+  </div>
+</form>

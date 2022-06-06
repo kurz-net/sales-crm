@@ -1,0 +1,44 @@
+<div>
+  <h2 class="text-2xl text-gray-800 font-medium">Registrieren</h2>
+</div>
+
+<%= f = form_for @changeset, "#", [phx_submit: "submit"] %>
+  <div class="mb-4">
+    <%= label f, :first_name, "Vorname" %>
+    <%= error_tag f, :first_name %>
+    <%= text_input f, :first_name, placeholder: "Vorname" %>
+  </div>
+  <div class="mb-4">
+    <%= label f, :last_name, "Nachname" %>
+    <%= error_tag f, :last_name %>
+    <%= text_input f, :last_name, placeholder: "Nachname" %>
+  </div>
+  <%= inputs_for f, :user, fn u -> %>
+    <div class="mb-4">
+      <%= label u, :email, "Email" %>
+      <%= error_tag u, :email %>
+      <%= text_input u, :email, placeholder: "Email" %>
+    </div>
+    <div class="mb-4">
+      <%= label u, :password, "Passwort" %>
+      <%= error_tag u, :password %>
+      <%= password_input u, :password, placeholder: "Password" %>
+    </div>
+    <div class="mb-4">
+      <%= label u, :password_confirmation, "Passwort Bestätigen" %>
+      <%= error_tag u, :password_confirmation %>
+      <%= password_input u, :password_confirmation, placeholder: "Passwort Bestätigen" %>
+    </div>
+    <div class="mb-4">
+      <%= label u, :code, "Aktivierungscode" %>
+      <%= error_tag u, :code %>
+      <%= text_input u, :code, placeholder: "Aktivierungscode" %>
+    </div>
+  <% end %>
+  <div class="mt-8 flex justify-end">
+    <button type="button" class="btn-flat mr-2">
+      <a href="/sessions/new">ANMELDEN</a>
+    </button>
+		<%= submit "BESTÄTIGEN" %>
+	</div>
+</form>

@@ -1,0 +1,34 @@
+<table class="table-fixed w-full mb-8">
+  <thead>
+    <tr class="text-left text-gray-800">
+      <th class="px-4 py-2">DISC</th>
+      <th class="px-4 py-2">Branche</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="bg-gray-100">
+      <td class="px-4 py-2">
+        <%= if @summary.disc != "" do %>
+          <%= @summary.disc %>
+        <% else %>
+          <span class="italic font-medium text-gray-600">Nicht vorhanden</span>
+        <% end %>
+      </td>
+      <td class="px-4 py-2">
+        <%= if @summary.branche != "" do %>
+          <%= @summary.branche %>
+        <% else %>
+          <span class="italic font-medium text-gray-600">Nicht vorhanden</span>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="pl-4 flex flex-wrap">
+  <%= display_section "Daten", @summary.data %>
+  <%= display_section "Probleme", @summary.pains %>
+  <%= display_section "Sonstiges", @summary.other %>
+  <%= display_section "Ergebnisse", @summary.outcomes %>
+  <%= display_section "Wiedervorlagen", @summary.follow_ups %>
+</div>

@@ -1,0 +1,46 @@
+<div class="flex justify-between mb-4">
+  <h2 class="text-2xl text-gray-800 font-medium">Neue Anforderung</h2>
+  <div>
+    <%= live_redirect to: Routes.saleup_index_path(@socket, :index) do %>
+      <button class="btn-flat">ZURÜCK</button>
+    <% end %>
+  </div>
+</div>
+
+<%= f = form_for @changeset, "#", [phx_change: "update_rebels", phx_submit: "submit_requirement"] %>
+  <div class="mb-4 flex flex-wrap">
+    <div class="w-full sm:w-1/2 sm:pr-3">
+      <%= label f, :from_date, "Von*" %>
+      <%= error_tag f, :from_date %>
+      <%= date_input f, :from_date, value: start_week() %>
+    </div>
+    <div class="w-full sm:w-1/2 sm:pl-3">
+      <%= label f, :to_date, "Bis*" %>
+      <%= error_tag f, :to_date %>
+      <%= date_input f, :to_date, value: end_week() %>
+    </div>
+  </div>
+  <div class="mb-4">
+    <%= label f, :partner_id, "Partner*" %>
+    <%= error_tag f, :partner_id %>
+    <%= live_select f, :partner_id, Enum.map(@partners, &{&1.name, &1.id}), prompt: "Partner auswählen", class: "w-full" %>
+  </div>
+  <div class="mb-4">
+    <%= label f, :rebel_id, "Rebel" %>
+    <%= error_tag f, :rebel_id %>
+    <%= live_select f, :rebel_id, Enum.map(@rebels, &{"#{&1.first_name} #{&1.last_name}", &1.id}), prompt: "Rebel auswählen", class: "w-full" %>
+  </div>
+  <div class="mb-4">
+    <%= label f, :calls, "Anrufe(*)" %>
+    <%= error_tag f, :calls %>
+    <%= number_input f, :calls, placeholder: "Anrufe" %>
+  </div>
+  <div class="mb-4">
+    <%= label f, :hours, "Stunden(*)" %>
+    <%= error_tag f, :hours %>
+    <%= number_input f, :hours, placeholder: "Stunden" %>
+  </div>
+  <div class="mt-8">
+    <%= submit "BESTÄTIGEN", class: "w-full" %>
+  </div>
+</form>

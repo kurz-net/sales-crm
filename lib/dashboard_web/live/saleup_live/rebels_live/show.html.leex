@@ -1,0 +1,74 @@
+<div class="flex justify-between mb-4">
+  <h1 class="text-2xl text-gray-800 font-medium">
+    Rebel
+  </h1>
+  <div>
+    <%= live_redirect to: Routes.saleup_rebels_index_path(@socket, :index) do %>
+      <button class="btn-flat">ZURÜCK</button>
+    <% end %>
+  </div>
+</div>
+
+<hr class="mb-8">
+
+<div class="mb-8">
+  <table class="table-fixed w-full">
+    <thead>
+      <tr class="text-left text-gray-800">
+        <th class="px-4 py-2">Vorname</th>
+        <th class="px-4 py-2">Nachname</th>
+        <th class="px-4 py-2">Aktiv Seit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-gray-100">
+        <td class="px-4 py-2">
+          <%= @rebel.first_name %>
+        </td>
+        <td class="px-4 py-2">
+          <%= @rebel.last_name %>
+        </td>
+        <td class="px-4 py-2">
+          <%= NaiveDateTime.to_date @rebel.inserted_at %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="mb-8">
+  <div class="mb-4">
+    <h2 class="text-lg font-medium text-gray-800">Projekte</h2>
+  </div>
+
+  <ul class="ml-2">
+    <%= for project <- @rebel.projects do %>
+      <li class="mb-4 flex justify-between items-center">
+        <span class="text-lg">
+          <%= project.name %>
+        </span>
+        <div>
+          <button
+            class="btn-flat"
+            phx-click="remove_from_project"
+            phx-value-project_id="<%= project.id %>"
+          >
+            ENTFERNEN
+          </button>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <%= f = form_for @add_project_changeset, "#", [phx_submit: "submit_add_project"] %>
+    <div class="flex items-center">
+      <div class="flex flex-1">
+        <%= live_select f, :project_id, Enum.map(@joinable_projects, &{"#{&1.partner.name} - #{&1.name}", &1.id}), class: "w-full", prompt: "Projekt auswählen" %>
+      </div>
+      <div class="ml-4">
+        <%= submit "ZU PROJEKT HINZUFÜGEN", class: "w-full" %>
+      </div>
+    </div>
+  </form>
+</div>
+

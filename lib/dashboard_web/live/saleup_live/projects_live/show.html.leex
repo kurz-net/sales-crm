@@ -1,0 +1,85 @@
+<div class="flex justify-between mb-4">
+  <h1 class="text-2xl text-gray-800 font-medium">
+    Projekt
+  </h1>
+  <div>
+    <%= live_redirect to: Routes.saleup_partners_show_path(@socket, :edit, @project.partner.id) do %>
+      <button class="btn-flat">ZURÜCK</button>
+    <% end %>
+  </div>
+</div>
+
+<hr class="mb-8">
+
+<div class="mb-8">
+  <table class="table-fixed w-full">
+    <thead>
+      <tr class="text-left text-gray-800">
+        <th class="px-4 py-2">Name</th>
+        <th class="px-4 py-2">Partner</th>
+        <th class="px-4 py-2">Von</th>
+        <th class="px-4 py-2">Bis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-gray-100">
+        <td class="px-4 py-2">
+          <%= @project.name %>
+        </td>
+        <td class="px-4 py-2">
+          <%= @project.partner.name %>
+        </td>
+        <td class="px-4 py-2">
+          <%= if is_nil(@project.start_date) do %>
+            <span class="font-semibold text-gray-800">-</span>
+          <% else %>
+            <%= @project.start_date %>
+          <% end %>
+        </td>
+        <td class="px-4 py-2">
+          <%= if is_nil(@project.end_date) do %>
+            <span class="font-semibold text-gray-800">-</span>
+          <% else %>
+            <%= @project.end_date %>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="mb-8">
+  <div class="mb-4">
+    <h2 class="text-lg font-medium text-gray-800">Rebels</h2>
+  </div>
+
+  <ul class="ml-2">
+    <%= for rebel <- @project.rebels do %>
+      <li class="mb-4 flex justify-between items-center">
+        <span class="text-lg">
+          <%= rebel.first_name %> <%= rebel.last_name %>
+        </span>
+        <div>
+          <button
+            class="btn-flat"
+            phx-click="remove_from_project"
+            phx-value-rebel_id="<%= rebel.id %>"
+          >
+            ENTFERNEN
+          </button>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <%= f = form_for @add_rebel_changeset, "#", [phx_submit: "submit_add_project"] %>
+    <div class="flex items-center">
+      <div class="flex flex-1">
+        <%= live_select f, :rebel_id, Enum.map(@available_rebels, &{"#{&1.first_name} #{&1.last_name}", &1.id}), class: "w-full", prompt: "Rebel auswählen" %>
+      </div>
+      <div class="ml-4">
+        <%= submit "ZU PROJEKT HINZUFÜGEN", class: "w-full" %>
+      </div>
+    </div>
+  </form>
+</div>

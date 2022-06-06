@@ -1,0 +1,83 @@
+<div class="flex justify-between">
+  <h2 class="text-3xl">Projekt Info</h2>
+  <div>
+    <%= live_redirect to: Routes.partner_index_path(@socket, :index) do %>
+      <button class="btn-flat">ZURÜCK</button>
+    <% end %>
+  </div>
+</div>
+
+<form>
+  <div>
+    <%= label :project, :name, "Name" %>
+    <%= text_input :project, :name, value: @project.name, readonly: true %>
+  </dvi>
+
+  <div class="my-4 flex">
+    <div class="w-1/2 pr-4">
+      <%= label :project, :start_date, "Start" %>
+      <%= date_input :project, :start_date, value: @project.start_date, readonly: true %>
+    </div>
+
+    <div class="w-1/2 pl-4">
+      <%= label :project, :end_date, "Ende" %>
+      <%= date_input :project, :end_date, value: @project.end_date, readonly: true %>
+    </div>
+  </div>
+
+  <div class="my-4">
+    <h2 class="text-lg font-semibold text-gray-800 mb-2">Packete</h2>
+    <table class="table-fixed w-full">
+      <thead>
+        <tr class="text-left text-gray-800">
+          <th class="px-4 py-2">Name</th>
+          <th class="px-4 py-2">Preis</th>
+          <th class="px-4 py-2">Provision</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for {packet, index} <- Enum.with_index(@project.packets) do %>
+          <tr class="<%= if rem(index, 2) != 0, do: 'bg-gray-100' %>">
+            <td class="px-4 py-2">
+              <%= packet.name %>
+            </td>
+            <td class="px-4 py-2">
+              <%= packet.cost %>€
+            </td>
+            <td class="px-4 py-2">
+              <%= commission_value(packet) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="my-4">
+    <h2 class="text-lg font-semibold text-gray-800 mb-2">Rebels</h2>
+    <table class="table-fixed w-full">
+      <thead>
+        <tr class="text-left text-gray-800">
+          <th class="px-4 py-2">Vorname</th>
+          <th class="px-4 py-2">Nachname</th>
+          <th class="px-4 py-2">Closed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for {rebel, index} <- Enum.with_index(@project.rebels) do %>
+          <tr class="<%= if rem(index, 2) != 0, do: 'bg-gray-100' %>">
+            <td class="px-4 py-2">
+              <%= rebel.first_name %>
+            </td>
+            <td class="px-4 py-2">
+              <%= rebel.last_name %>
+            </td>
+            <td class="px-4 py-2">
+              <%= closed_calls @project, rebel %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</form>

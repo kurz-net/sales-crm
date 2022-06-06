@@ -1,0 +1,32 @@
+<div>
+  <h1 class="text-2xl text-gray-800 font-medium"><%= @call.lead.contact_name %></h1>
+  <h2 class="text-lg text-gray-600 font-medium"><%= @call.lead.project.name %></h2>
+</div>
+
+<%= f = form_for @changeset, "#", [phx_change: "validate_credit", phx_submit: "submit"] %>
+  <div class="mb-8">
+    <%= label f, :packet_id %>
+    <%= error_tag f, :packet_id %>
+    <%= live_select f, :packet_id, Enum.map(@call.lead.project.packets, &{&1.name, &1.id}), prompt: "Packet auswählen", class: "w-full" %>
+  </div>
+
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold text-gray-800 mb-2">Zahlungen</h2>
+    <%= error_tag f, :pay_rates %>
+    <%= for {pay_rate, index} <- inputs_for(f, :pay_rates) |> Enum.with_index do %>
+      <div class="flex items-center mb-4">
+        <button class="btn-flat" phx-value-index="<%= index %>" phx-click="remove_pay_rate">
+          <span class="text-2xl">&times;</span>
+        </button>
+        <%= date_input pay_rate, :date, class: "mr-8" %>
+        <%= number_input pay_rate, :value, placeholder: "Wert", class: "mr-8" %>
+        <%= live_select pay_rate, :percentage, [{"€", false}, {"%", true}] %>
+      </div>
+    <% end %>
+    <button type="button" class="btn-flat w-full mt-4" phx-click="add_pay_rate">
+      hinzufügen
+    </button>
+  </div>
+
+  <%= submit "BESTÄTIGEN", class: "w-full mt-4" %>
+</form>

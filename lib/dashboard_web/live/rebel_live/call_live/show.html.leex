@@ -1,0 +1,22 @@
+<div>
+  <div class="flex justify-between">
+    <h2 class="text-3xl">Anruf Ansicht</h2>
+    <div>
+      <%= live_patch to: Routes.rebel_call_show_path(@socket, :export, @call_id) do %>
+        <button class="btn-flat">EXPORTIEREN</button>
+      <% end %>
+      <%= live_redirect to: Routes.rebel_index_path(@socket, :index) do %>
+        <button class="btn-flat">ZURÜCK</button>
+      <% end %>
+    </div>
+  </div>
+  <%= live_component @socket, DashboardWeb.CallComponent, call_id: @call_id %>
+</div>
+
+<%= if @live_action == :export do %>
+  <%= live_modal @socket, DashboardWeb.RebelLive.CallLive.ExportComponent,
+    id: @call_id,
+    title: "Export Call",
+    call_id: @call_id,
+    return_to: Routes.rebel_call_show_path(@socket, :show, @call_id) %>
+<% end %>

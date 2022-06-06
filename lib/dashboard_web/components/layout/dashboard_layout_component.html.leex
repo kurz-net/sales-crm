@@ -1,0 +1,17 @@
+<div class="flex flex-wrap">
+  <div class="w-full lg:w-3/4 order-2 lg:order-1 lg:pr-20 mb-20 lg:mb-0">
+    <div class="flex justify-between mb-4">
+      <%= @content %>
+    </div>
+  </div>
+  <div class="w-full lg:w-1/4 flex flex-col order-1 lg:order-2">
+    <%= for {component, i} <- Enum.with_index(@sidebar) do %>
+      <div class="w-full">
+        <%= component %>
+      </div>
+      <%= if i < length(@sidebar) - 1 do %>
+        <hr class="my-6">
+      <% end %>
+    <% end %>
+  </div>
+</div>

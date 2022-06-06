@@ -1,0 +1,9 @@
+<main role="main" class="flex justify-center">
+  <div class="container mt-10 mx-auto px-8">
+    <p class="alert alert-info" role="alert" phx-click="lv:clear-flash"><%= live_flash(@flash, :info) %></p>
+    <p class="alert alert-error" role="alert" phx-click="lv:clear-flash"><%= live_flash(@flash, :error) %></p>
+    <p class="alert alert-success" role="alert" phx-click="lv:clear-flash"><%= live_flash(@flash, :success) %></p>
+
+    <%= @inner_content %>
+  </div>
+</main>

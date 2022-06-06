@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+    <%= live_title_tag assigns[:page_title] || "Dashboard", suffix: " · Phoenix Framework" %>
+    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  </head>
+  <body>
+    <header class="bg-primary-600 px-6 py-3 flex justify-center">
+      <div class="container flex justify-between">
+        <div class="w-64">
+          <%= form_for @conn, Routes.home_path(@conn, :new), [method: :get, class: "p-0 m-0"], fn _ -> %>
+              <%= submit class: "bg-primary-600" do %>
+                <img
+                  src="<%= Routes.static_path(@conn, "/images/Logo.png") %>"
+                  alt="Saleup Logo"
+                  class="subpixel-antialiased"
+                />
+              <% end %>
+          <% end %>
+        </div>
+        <nav role="navigation" class="flex">
+          <ul class="inline-flex items-center">
+            <div class="mx-12">
+              <%= if Map.has_key?(@conn.assigns, :current_user) do %>
+                <%= case @current_user.role do %>
+                  <% "rebel" -> %>
+                    <h2 class="text-2xl text-white font-medium">
+                      <%= @current_user.rebel.first_name %><span> </span><%= @current_user.rebel.last_name %>
+                    </h2>
+                  <% "partner" -> %>
+                    <h2 class="text-2xl text-white font-medium">
+                      <%= @current_user.partner.name %>
+                    </h2>
+                  <% "saleup" -> %>
+                    <h2 class="text-2xl text-white font-medium">
+                      Sales
+                    </h2>
+                <% end %>
+              <% end %>
+            </div>
+            <%= if Map.has_key?(@conn.assigns, :current_user) do %>
+              <li>
+                <%= form_for @conn, Routes.session_path(@conn, :delete), [method: :delete, as: :user, class: "p-0 m-0"], fn _ -> %>
+                  <div>
+                    <%= submit "ABMELDEN" %>
+                  </div>
+                <% end %>
+              </li>
+            <% else %>
+              <li>
+                <button>
+                  <a href="/sessions/new">ANMELDEN</a>
+                </button>
+              </li>
+            <% end %>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <%= @inner_content %>
+  </body>
+</html>

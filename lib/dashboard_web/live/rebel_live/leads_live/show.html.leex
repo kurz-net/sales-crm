@@ -1,0 +1,47 @@
+<div class="flex justify-between mb-4">
+  <h1 class="text-2xl text-gray-800 font-medium">Lead</h1>
+  <div>
+    <%= live_redirect to: Routes.live_path(@socket, DashboardWeb.RebelLive.CallLive.New, lead_id: @lead.id) do %>
+      <button class="btn-flat">NEUER CALL</button>
+    <% end %>
+    <%= live_redirect to: Routes.rebel_leads_index_path(@socket, :index) do %>
+      <button class="btn-flat">ZURÜCK</button>
+    <% end %>
+  </div>
+</div>
+
+<hr class="mb-8">
+
+<div class="mt-8">
+  <table class="table-fixed w-full mb-8">
+    <thead>
+      <tr class="text-left text-gray-800">
+        <th class="px-4 py-2">Unternehmen</th>
+        <th class="px-4 py-2">Kontakt</th>
+        <th class="px-4 py-2">Projekt</th>
+        <th class="px-4 py-2">Anzahl Anrufe</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-gray-100">
+        <td class="px-4 py-2">
+          <%= @lead.company_name %>
+        </td>
+        <td class="px-4 py-2">
+          <%= @lead.contact_name %>
+        </td>
+        <td class="px-4 py-2">
+          <%= @lead.project.name %> (<%= @lead.project.partner.name %>)
+        </td>
+        <td class="px-4 py-2">
+          <%= length(@lead.calls) %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <%= live_component @socket,
+        DashboardWeb.Components.Lead.SummaryComponent,
+        rebel: @current_user.rebel,
+        lead: @lead %>
+</div>

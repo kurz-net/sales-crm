@@ -1,0 +1,20 @@
+<h2 class="text-2xl text-gray-800 font-medium">Session</h2>
+
+<div>
+  <div class="text-3xl my-4 text-gray-800">
+    <%= if @hours < 10, do: "0" %><%= @hours %>:<%= if @minutes < 10, do: "0" %><%= @minutes %>:<%= if @seconds < 10, do: "0" %><%= @seconds %>
+  </div>
+
+  <div class="flex">
+    <button phx-click="start_session" phx-target="<%= @myself %>" class="bg-green-500 hover:bg-green-600 w-full"
+      <%= if @session != nil, do: "disabled" %>
+    >
+      START
+    </button>
+    <button phx-click="stop_session" phx-target="<%= @myself %>" class="bg-red-500 hover:bg-red-700 w-full ml-8"
+      <%= if @session == nil, do: "disabled" %>
+    >
+      STOP
+    </button>
+  </div>
+</div>

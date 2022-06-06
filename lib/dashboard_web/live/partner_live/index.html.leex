@@ -1,0 +1,82 @@
+<%= if @live_action == :credit do %>
+  <%= live_modal @socket, DashboardWeb.PartnerLive.CreditComponent,
+    id: @credit.id,
+    title: "Credit Closing Call",
+    call: @credit,
+    return_to: Routes.partner_index_path(@socket, :index) %>
+<% end %>
+
+<div class="flex flex-wrap">
+  <div class="w-full lg:w-3/4 order-2 lg:order-1 lg:pr-20 mb-20 lg:mb-0">
+    <div>
+      <h2 class="text-2xl text-gray-800 font-medium">Austehende Closing Calls</h2>
+      <%= if length(@due_calls) == 0 do %>
+        <h3 class="font-semibold text-lg text-gray-800 mt-4">Keine Vorhanden</h3>
+      <% end %>
+      <ul class="mt-4">
+        <%= for call <- @due_calls do %>
+          <li class="my-4">
+            <div class="text-lg font-semibold">
+              <%= call.lead.contact_name %>
+            </div>
+            <div class="text-gray-800">
+              <%= call.lead.project.name %>
+            </div>
+            <div class="text-gray-800">
+              <%= call.follow_up %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="w-full lg:w-1/4 flex flex-col order-1 lg:order-2">
+    <div class="w-full">
+      <h2 class="text-2xl text-gray-800 font-medium">Projekte</h2>
+      <ul class="mt-2">
+        <%= for project <- @current_user.partner.projects do %>
+          <li class="flex justify-between items-center">
+            <div class="text-lg">
+              <%= project.name %>
+            </div>
+            <div>
+              <%= live_redirect to: Routes.partner_project_show_path(@socket, :show, project.id) do %>
+                <button class="btn-flat">INFO</button>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <hr class="my-6">
+
+    <div class="w-full">
+      <h2 class="text-2xl text-gray-800 font-medium">Überfällige Closing Calls</h2>
+      <%= if length(@overdue_calls) == 0 do %>
+        <h3 class="font-semibold text-lg text-gray-800 mt-4">Keine Vorhanden</h3>
+      <% end %>
+      <ul>
+        <%= for call <- @overdue_calls do %>
+          <li class="flex justify-between items-center">
+            <div class="my-2">
+              <div class="text-lg">
+                <%= call.lead.contact_name %>
+              </div>
+              <div class="text-gray-800 font-semibold">
+                <%= call.follow_up %>
+              </div>
+            </div>
+            <div>
+              <%= live_patch to: Routes.partner_credit_new_path(@socket, :new, call.id) do %>
+                <button class="btn-flat">CREDIT</button>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <hr class="my-6 block lg:hidden">
+  </div>
+</div>

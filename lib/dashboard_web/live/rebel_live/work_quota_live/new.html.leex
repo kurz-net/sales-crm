@@ -1,0 +1,33 @@
+<div class="flex justify-between mb-4">
+  <h1 class="text-2xl text-gray-800 font-medium">Pensum eintragen</h1>
+  <div>
+    <%= live_redirect to: Routes.rebel_index_path(@socket, :index) do %>
+      <button class="btn-flat">ZURÜCK</button>
+    <% end %>
+  </div>
+</div>
+
+<hr class="mb-4">
+
+<%= f = form_for @changeset, "#", [phx_submit: "submit_work_quota"] %>
+  <div class="mb-4 flex flex-wrap">
+    <div class="w-full sm:w-1/2 sm:pr-3">
+      <%= label f, :from_date, "Von*" %>
+      <%= error_tag f, :from_date %>
+      <%= date_input f, :from_date, value: start_week() %>
+    </div>
+    <div class="w-full sm:w-1/2 sm:pl-3">
+      <%= label f, :to_date, "Bis*" %>
+      <%= error_tag f, :to_date %>
+      <%= date_input f, :to_date, value: end_week() %>
+    </div>
+  </div>
+  <div class="mb-4">
+    <%= label f, :hours, "Stunden*" %>
+    <%= error_tag f, :hours %>
+    <%= number_input f, :hours, placeholder: "Stunden" %>
+  </div>
+  <div class="my-10">
+    <%= submit "BESTÄTIGEN", class: "w-full text-lg" %>
+  </div>
+</form>

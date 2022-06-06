@@ -1,0 +1,2 @@
+id,project_id,name,description,provision,cost
+0,0,Basic,A very basic package,"{""id"":""0a01ccbe-6e34-4022-bd51-f1028a823716"",""percentage"":true,""value"":3.0}","{""id"": ""12e12890-c531-45cf-b37f-974224047d5e"",""value"": 1000, ""pay_dates"": [{""date"": ""2020-12-24T00:00:00"", ""percentage_value"": 100.0}]}"

@@ -1,0 +1,4 @@
+id,email,password,role,rebel_id,partner_id
+0,rebel@email.com,qwerty,rebel,0,
+1,partner@email.com,qwerty,partner,,1
+2,saleup@email.com,qwerty,saleup,,

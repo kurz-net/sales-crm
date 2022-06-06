@@ -1,0 +1,18 @@
+<div class="flex justify-between mb-4">
+  <h1 class="text-2xl text-gray-800 font-medium">Lead erstellen</h1>
+  <div>
+    <%= live_redirect to: Routes.saleup_leads_index_path(@socket, :index) do %>
+      <button class="btn-flat">ZURÜCK</button>
+    <% end %>
+  </div>
+</div>
+
+<hr class="mb-8">
+
+<%= live_component @socket,
+  DashboardWeb.SaleupLive.LeadsLive.FormComponent,
+  id: "lead-form",
+  lead: %Dashboard.Entities.Lead{},
+  action: :new,
+  redirect_to: Routes.saleup_leads_index_path(@socket, :index)
+%>
